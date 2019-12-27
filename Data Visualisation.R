@@ -108,5 +108,105 @@ ggplot(data=mpg,aes(x=displ, y=hwy))+
   geom_smooth(se=FALSE,aes(linetype=drv))
 ggplot(data=mpg,aes(x=displ, y=hwy,color=drv))+
   geom_point()
+#---
+#statistical transformation by bar chart
+ggplot(data=diamonds)+
+  geom_bar(aes(x=cut))
+#display a bar chart of proportion
+ggplot(data=diamonds)+
+  geom_bar(aes(x=cut,y=..prop..,group=1))
+#summarises the y values for each unique x value
+ggplot(data = diamonds) + 
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.ymin = min,
+    fun.ymax = max,
+    fun.y = median
+  )
+?stat_bin
+#---
+#position adjustment
+ggplot(data=diamonds)+geom_bar(aes(x=cut,fill=cut))
+ggplot(data=diamonds)+geom_bar(aes(x=cut,fill=clarity))
+ggplot(data=diamonds)+geom_bar(aes(x=cut,fill=clarity),position = "dodge")
+#There’s one other type of adjustment that’s not useful for bar charts, 
+#but it can be very useful for scatterplots. Recall our first scatterplot. 
+#Did you notice that the plot displays only 126 points, 
+#even though there are 234 observations in the dataset?
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
+#Adding randomness seems like a strange way to improve your plot, 
+#but while it makes your graph less accurate at small scales, 
+#it makes your graph more revealing at large scales.
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point(position = "jitter")
+?position_jitter
+#---
+#Coordinate systems
+ggplot(data=mpg,aes(x=class, y=hwy))+
+  geom_boxplot()
+ggplot(data=mpg,aes(x=class, y=hwy))+
+  geom_boxplot()+
+  coord_flip()
+#---
+bar <- ggplot(data = diamonds) + 
+  geom_bar(
+    mapping = aes(x = cut, fill = cut), 
+    show.legend = FALSE,
+    width = 1
+  ) + 
+  theme(aspect.ratio = 1) +
+  labs(x = NULL, y = NULL)
+
+bar + coord_flip()
+bar + coord_polar()
+?geom_abline
+?coord_fixed
+#The layered grammar of graphics
+#ggplot(data = <DATA>) + 
+#<GEOM_FUNCTION>(
+#  mapping = aes(<MAPPINGS>),
+#  stat = <STAT>, 
+#  position = <POSITION>
+#) +
+#  <COORDINATE_FUNCTION> +
+#  <FACET_FUNCTION>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
